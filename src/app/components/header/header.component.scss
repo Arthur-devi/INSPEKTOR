@@ -1,0 +1,154 @@
+/* header.component.scss */
+
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+
+  .d-lg-none {
+    color: white !important; // Garante que o MatIcon (e seu conteúdo) fique branco
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Logo e título */
+  .logo-img {
+    height: 75px;
+    width: 75px;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
+  }
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+  }
+  small {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  /* Navegação desktop */
+  .nav-links {
+    display: flex;
+    gap: 1rem;
+
+    button {
+      font-size: 1rem;
+      font-weight: 500;
+      padding: 0.5rem 1.5rem;
+      color: white;
+      border: none;
+      background: #0f1114;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.2s ease-in-out;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+      }
+
+      &.active {
+        background: rgba(77, 171, 247, 0.2);
+        color: #4dabf7;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+/* header.component.scss (VERSÃO FINAL CORRETA) */
+
+.header-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 1rem 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+}
+
+/* Logo e título */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-decoration: none; // Remove sublinhado do link
+
+  .logo-img {
+    height: 60px;
+    width: 60px;
+  }
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+  }
+  small {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+/* Navegação */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  button {
+    font-weight: 500;
+    color: white;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &.active {
+      background: rgba(77, 171, 247, 0.2);
+      color: #4dabf7;
+      font-weight: 600;
+    }
+  }
+}
+
+/* === Estilos para o menu responsivo === */
+@media (max-width: 991.98px) { // Breakpoint 'lg' do CoreUI/Bootstrap
+  .header-container {
+    padding: 0.75rem 1rem;
+  }
+  .logo-img {
+    height: 45px;
+    width: 45px;
+  }
+  h1 { font-size: 1.2rem; }
+
+  // Quando o menu estiver aberto, estilize o container e os links
+  .header-collapse {
+    flex-basis: 100%; // Ocupa a largura toda
+    margin-top: 1rem; // Espaçamento do topo
+  }
+
+  .nav-links {
+    flex-direction: column;
+    align-items: stretch; // Estica os botões para preencher o espaço
+    width: 100%;
+    gap: 0.75rem;
+
+    button {
+      text-align: center;
+      padding: 0.75rem;
+    }
+  }
+}

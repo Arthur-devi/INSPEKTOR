@@ -1,0 +1,110 @@
+<div class="form-container" [formGroup]="sachetsForm" [@stepAnimation]>
+  <!-- CABEÇALHO (sem alterações) -->
+  <div class="form-header">
+    <h1>Formulário 01: Sachês</h1>
+    <button mat-stroked-button (click)="panelEspecificacoesAberto = !panelEspecificacoesAberto">
+      <mat-icon>info_outline</mat-icon>
+      Ver Especificações
+    </button>
+  </div>
+  <mat-expansion-panel [expanded]="panelEspecificacoesAberto" class="spec-panel">
+    <mat-panel-title><mat-icon>assignment</mat-icon>Especificações e Padrões</mat-panel-title>
+    <ul>
+      <li><strong>Padrão Pesos:</strong> Variação min 5g máx. 10g.</li>
+      <li><strong>Padrão Defeitos:</strong> Standart: 25%, Premium: 17%, Az. 2ª: 40%.</li>
+      <li><strong>PCC 1F Caroços:</strong> Máx. 2un ou Az fatiadas 01 un.</li>
+    </ul>
+  </mat-expansion-panel>
+
+  <div class="form-layout" style="padding-bottom: 10px">
+    <!-- COLUNA DA ESQUERDA -->
+    <div class="form-column">
+      <mat-card>
+        <mat-card-header><mat-card-title>Identificação</mat-card-title></mat-card-header>
+        <mat-card-content class="card-grid">
+          <mat-form-field appearance="outline"><mat-label>Linha</mat-label><mat-select formControlName="linha"><mat-option *ngFor="let l of linhas" [value]="l">{{l}}</mat-option></mat-select></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Data</mat-label><input matInput [matDatepicker]="picker" formControlName="data"><mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle><mat-datepicker #picker></mat-datepicker></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Responsável</mat-label><mat-select formControlName="nome"><mat-option *ngFor="let n of nomes" [value]="n">{{n}}</mat-option></mat-select></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Produto</mat-label><mat-select formControlName="produto"><mat-option *ngFor="let p of produtos" [value]="p">{{p}}</mat-option></mat-select></mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header><mat-card-title>Matéria Prima</mat-card-title></mat-card-header>
+        <mat-card-content class="card-grid">
+          <mat-form-field appearance="outline"><mat-label>Variedade</mat-label><input matInput formControlName="variedade"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Cód. Barrica</mat-label><input matInput formControlName="codBarrica"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>NF</mat-label><input matInput formControlName="nf"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Calibre</mat-label><mat-select formControlName="calibre"><mat-option *ngFor="let c of calibres" [value]="c.numero">{{c.numero}} ({{c.descricao}})</mat-option></mat-select></mat-form-field>
+          <mat-form-field appearance="outline" class="full-span"><mat-label>Fornecedor</mat-label><input matInput formControlName="fornecedor"></mat-form-field>
+
+          <!-- NOVO: Upload de arquivo estilizado -->
+          <div class="full-span file-input-container">
+            <button type="button" mat-stroked-button (click)="fotoMateriaPrimaInput.click()">
+              <mat-icon>attach_file</mat-icon>
+              Anexar Foto da Matéria-Prima
+            </button>
+            <span class="file-name">{{ sachetsForm.get('fotoMateriaPrima')?.value?.name || 'Nenhum arquivo' }}</span>
+            <input hidden type="file" #fotoMateriaPrimaInput (change)="onFileSelected($event, 'fotoMateriaPrima')" accept="image/*">
+          </div>
+          <div class="full-span image-preview" *ngIf="previews['fotoMateriaPrima']">
+            <img [src]="previews['fotoMateriaPrima']" alt="Preview da matéria-prima">
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- COLUNA DA DIREITA (sem grandes alterações) -->
+    <div class="form-column">
+      <!-- Outros cards aqui -->
+      <mat-card>
+        <mat-card-header><mat-card-title>Análises de Processo</mat-card-title></mat-card-header>
+        <mat-card-content class="card-grid">
+          <mat-form-field appearance="outline"><mat-label>Nº de Amostras</mat-label><input matInput type="number" formControlName="numAmostras"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Hora</mat-label><input matInput type="time" formControlName="hora"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Peso Drenado (g)</mat-label><input matInput type="number" formControlName="pesoDrenado"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>Peso Líquido (g)</mat-label><input matInput type="number" formControlName="pesoLiquido"></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>PCC 1F: Caroços</mat-label><input matInput type="number" formControlName="pcc1f"></mat-form-field>
+        </mat-card-content>
+      </mat-card>
+      <mat-card>
+        <mat-card-header><mat-card-title>Verificações Finais</mat-card-title></mat-card-header>
+        <mat-card-content class="checks-grid">
+          <div class="check-item"><span>Encaixotamento</span><mat-radio-group formControlName="encaixotamento"><mat-radio-button value="C">C</mat-radio-button><mat-radio-button value="NC">NC</mat-radio-button></mat-radio-group></div>
+          <div class="check-item"><span>Selagem</span><mat-radio-group formControlName="selagem"><mat-radio-button value="C">C</mat-radio-button><mat-radio-button value="NC">NC</mat-radio-button></mat-radio-group></div>
+          <div class="check-item"><span>Cód. Lote/Val</span><mat-radio-group formControlName="codificacaoLote"><mat-radio-button value="C">C</mat-radio-button><mat-radio-button value="NC">NC</mat-radio-button></mat-radio-group></div>
+          <div class="check-item"><span>Cód. Caixa</span><mat-radio-group formControlName="codificacaoCaixa"><mat-radio-button value="C">C</mat-radio-button><mat-radio-button value="NC">NC</mat-radio-button></mat-radio-group></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <mat-card>
+    <mat-card-header><mat-card-title>Observações e Anexos</mat-card-title></mat-card-header>
+    <mat-card-content>
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Observações Gerais</mat-label>
+        <textarea matInput formControlName="observacoes" rows="3"></textarea>
+      </mat-form-field>
+
+      <!-- NOVO: Upload de arquivo estilizado -->
+      <div class="file-input-container">
+        <button type="button" mat-stroked-button (click)="fotoObservacoesInput.click()">
+          <mat-icon>add_a_photo</mat-icon>
+          Anexar Foto da Observação
+        </button>
+        <span class="file-name">{{ sachetsForm.get('fotoObservacoes')?.value?.name || 'Nenhum arquivo' }}</span>
+        <input hidden type="file" #fotoObservacoesInput (change)="onFileSelected($event, 'fotoObservacoes')" accept="image/*">
+      </div>
+      <div class="image-preview" *ngIf="previews['fotoObservacoes']">
+        <img [src]="previews['fotoObservacoes']" alt="Preview da observação">
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- BOTÕES DE AÇÃO (sem alterações) -->
+  <div class="form-actions">
+    <button mat-stroked-button>Limpar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Salvar Formulário</button>
+  </div>
+</div>

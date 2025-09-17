@@ -1,0 +1,167 @@
+:host {
+  display: block;
+  background-color: #f8fafc;
+  padding: 32px; // Mais respiro nas laterais
+}
+
+.dashboard-container {
+  max-width: 1800px; // Aumentamos um pouco para telas maiores
+  margin: auto;
+}
+
+// Estilos do Cabeçalho
+.header {
+  margin-bottom: 32px;
+
+  h1 {
+    font-size: 2.25rem; // Título maior e mais impactante
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px; // Menos espaço entre título e subtítulo
+  }
+
+  .subtitle { // Novo estilo para o subtítulo
+    font-size: 1.1rem;
+    color: #64748b;
+    font-weight: 400;
+  }
+}
+
+// Estilos para os cards de KPI
+.kpi-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.kpi-card {
+  display: flex;
+  align-items: center;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px; // Bordas mais arredondadas e modernas
+  border: 1px solid #e2e8f0;
+  // ✅ SOMBRA SUTIL: Mais profissional que uma borda forte
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    // ✅ EFEITO DE HOVER MAIS ELEGANTE
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .kpi-icon-wrapper {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    margin-right: 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      color: #ffffff;
+      font-size: 36px;
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  // ✅ NOVAS CORES DOS KPIs, alinhadas à nova paleta
+  .kpi-icon-producao { background-color: #4f46e5; } // Índigo
+  .kpi-icon-alerta { background-color: #f59e0b; } // Amarelo
+  .kpi-icon-eficiencia { background-color: #22c55e; } // Verde
+
+  .kpi-content {
+    .kpi-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #64748b;
+    }
+    .kpi-value {
+      font-size: 2.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+  }
+}
+
+// Grid para os gráficos
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 24px;
+  margin-top: 32px; // Espaço entre os KPIs e os gráficos
+}
+
+// Estilo unificado para os cards de gráfico
+.chart-card {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+  padding: 24px;
+  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+
+  mat-card-header {
+    padding: 0 0 20px 0;
+  }
+
+  mat-card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+  }
+
+  mat-card-subtitle {
+    font-size: 0.9rem;
+    color: #64748b;
+  }
+
+  mat-card-content {
+    width: 100%;
+    height: 350px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Estilização global para ngx-charts dentro deste componente
+::ng-deep .ngx-charts {
+  text {
+    fill: #64748b !important; // Cor de texto dos eixos e legendas
+    font-family: 'Inter', sans-serif !important; // Aplicar a fonte nos gráficos
+  }
+
+  .axis-label {
+    font-weight: 500 !important;
+  }
+
+  .tooltip-anchor {
+    fill: #4f46e5 !important; // Cor do ponto na linha do gráfico
+  }
+}
+
+// Ajustes para dispositivos móveis
+@media (max-width: 768px) {
+  :host {
+    padding: 16px;
+  }
+
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  .header .subtitle {
+    font-size: 1rem;
+  }
+
+  .charts-grid {
+    grid-template-columns: 1fr; // Uma coluna em telas menores
+  }
+
+  .chart-card mat-card-content {
+    height: 300px;
+  }
+}

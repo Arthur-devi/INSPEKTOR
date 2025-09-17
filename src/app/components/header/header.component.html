@@ -1,0 +1,62 @@
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<c-header class="header-container" position="sticky">
+  <c-container fluid>
+
+    <a cHeaderBrand class="header-brand">
+      <img src="assets/logo-inspektor.svg" alt="Logo Inspektor" class="logo-img" />
+      <div>
+        <h1 class="mb-0">Inspektor</h1>
+        <small>Checklist de Verificação Interna</small>
+      </div>
+    </a>
+
+    <button cHeaderToggler
+            class="d-lg-none"
+            (click)="toggleNav()">
+      <mat-icon *ngIf="isNavCollapsed">menu</mat-icon>
+      <mat-icon *ngIf="!isNavCollapsed">close</mat-icon>
+    </button>
+
+    <div cCollapse
+         [visible]="!isNavCollapsed"
+         class="header-collapse d-lg-flex">
+      <c-header-nav class="nav-links ms-auto">
+        <button mat-button color="primary"
+                routerLink="/"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }">
+          Home
+        </button>
+
+        <button mat-button color="primary"
+                *ngIf="authService.hasRole([1, 2, 3, 4, 5])"
+                routerLink="/formularios"
+                routerLinkActive="active">
+          Formulários
+        </button>
+
+        <button mat-button color="primary"
+                *ngIf="authService.hasRole([3, 4, 5])"
+                routerLink="/relatorios"
+                routerLinkActive="active">
+          Relatórios
+        </button>
+
+        <button mat-button color="primary"
+                *ngIf="authService.hasRole([3, 4, 5])"
+                routerLink="/gerenciar"
+                routerLinkActive="active">
+          Gerenciar
+        </button>
+
+        <button mat-stroked-button color="warn" class="logout-button"
+                *ngIf="authService.isLoggedIn()"
+                (click)="logout()">
+          Sair
+        </button>
+      </c-header-nav>
+    </div>
+
+  </c-container>
+</c-header>

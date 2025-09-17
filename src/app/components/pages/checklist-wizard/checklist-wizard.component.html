@@ -1,0 +1,148 @@
+<c-container fluid class="py-4" >
+
+  <!-- Barra de progresso -->
+  <div class="progress mb-4" style="height: 8px;">
+    <div
+      class="progress-bar bg-primary"
+      role="progressbar"
+      [style.width.%]="(currentStep - 1) / (totalSteps - 1) * 100"
+    ></div>
+  </div>
+
+  <!-- Título do passo -->
+  <c-row class="mb-3">
+    <c-col>
+      <h2>Passo {{ currentStep }} de {{ totalSteps }}</h2>
+    </c-col>
+  </c-row>
+
+  <!-- Passo 1: Informações Iniciais -->
+  <div *ngIf="currentStep === 1" [@stepAnimation] [formGroup]="infoGroup">
+    <c-row>
+      <!-- Campos normais -->
+      <ng-container *ngFor="let field of ['produto','lote','responsavel','horario']">
+        <c-col md="6">
+          <div cFormFloating class="mb-4">
+            <input
+              [type]="field === 'horario' ? 'time' : 'text'"
+              class="form-control"
+              formControlName="{{ field }}"
+              placeholder=" "
+              [ngClass]="{ 'is-invalid': infoGroup.get(field)?.invalid && infoGroup.get(field)?.touched }"
+            />
+            <label>{{ field | titlecase }}</label>
+            <div *ngIf="infoGroup.get(field)?.invalid && infoGroup.get(field)?.touched" class="invalid-feedback">
+              Campo obrigatório.
+            </div>
+          </div>
+        </c-col>
+      </ng-container>
+
+      <!-- Campo "linha" como select -->
+      <c-col md="6">
+        <div cFormFloating class="mb-4">
+          <select class="form-select" formControlName="linha">
+            <option value="">Selecione a linha</option>
+            <option *ngFor="let linha of linhasDisponiveis" [value]="linha">{{ linha }}</option>
+          </select>
+          <label>Linha</label>
+          <div *ngIf="infoGroup.get('linha')?.invalid && infoGroup.get('linha')?.touched" class="invalid-feedback">
+            Selecione uma linha.
+          </div>
+        </div>
+      </c-col>
+    </c-row>
+  </div>
+
+
+  <!-- Passo 2: Checklist (Parte 1) -->
+  <div *ngIf="currentStep === 2" [@stepAnimation] [formGroup]="form">
+    <div formArrayName="respostas">
+      <ng-container *ngFor="let pergunta of perguntas; let i = index">
+        <ng-container *ngIf="i < 14">
+          <ng-container *ngIf="categorias[i]">
+            <div class="categoria-header">
+              <h5 class="mb-0 text-primary">{{ categorias[i] }}</h5>
+            </div>
+          </ng-container>
+          <div [formGroupName]="i" class="mb-4">
+            <div class="pergunta-card">
+              <p class="fw-semibold mb-2">{{ i + 1 }}. {{ pergunta }}</p>
+              <div class="radio-group">
+                <ng-container *ngFor="let opt of ['Sim','Não','Não se aplica']">
+                  <input
+                    type="radio"
+                    [id]="'opt-' + i + '-' + opt"
+                    formControlName="resposta"
+                    [value]="opt"
+                  />
+                  <label [for]="'opt-' + i + '-' + opt">{{ opt }}</label>
+                </ng-container>
+              </div>
+
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Passo 3: Checklist (Parte 2) -->
+  <div *ngIf="currentStep === 3" [@stepAnimation] [formGroup]="form">
+    <div formArrayName="respostas">
+      <ng-container *ngFor="let pergunta of perguntas; let i = index">
+        <ng-container *ngIf="i >= 14">
+          <ng-container *ngIf="categorias[i]">
+            <div class="categoria-header">
+              <h5 class="mb-0 text-primary">{{ categorias[i] }}</h5>
+            </div>
+          </ng-container>
+          <div [formGroupName]="i" class="mb-4">
+            <div class="pergunta-card">
+              <p class="fw-semibold mb-2">{{ i + 1 }}. {{ pergunta }}</p>
+              <div class="radio-group">
+                <ng-container *ngFor="let opt of ['Sim','Não','Não se aplica']">
+                  <input
+                    type="radio"
+                    [id]="'opt-' + i + '-' + opt"
+                    formControlName="resposta"
+                    [value]="opt"
+                  />
+                  <label [for]="'opt-' + i + '-' + opt">{{ opt }}</label>
+                </ng-container>
+              </div>
+
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Passo 4: Observações e Ações -->
+  <div *ngIf="currentStep === 4" [@stepAnimation] [formGroup]="form">
+    <c-row>
+      <c-col md="6" class="mb-4">
+        <label>Observações</label>
+        <textarea class="form-control" formControlName="observacoes" rows="4"></textarea>
+      </c-col>
+      <c-col md="6" class="mb-4">
+        <label>Ações</label>
+        <textarea class="form-control" formControlName="acoes" rows="4"></textarea>
+      </c-col>
+    </c-row>
+  </div>
+
+  <!-- Botões de navegação -->
+  <c-row class="mt-4">
+    <c-col class="text-end">
+      <button cButton color="secondary" (click)="prev()" [disabled]="currentStep === 1">
+        ◀ Anterior
+      </button>
+      <button cButton color="primary" class="ms-2" (click)="next()">
+        {{ currentStep < totalSteps ? 'Próximo ▶' : 'Concluir ✅' }}
+      </button>
+    </c-col>
+  </c-row>
+
+</c-container>

@@ -1,0 +1,71 @@
+:host {
+  display: block; // Alterado para 'block' para ocupar o espaço disponível
+  min-height: 100%;
+  background-color: #f8fafc;
+  padding: 2rem 1rem; // Adiciona padding lateral para telas menores
+}
+
+.container-selecao {
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto; // Mantém a centralização horizontal
+}
+
+.header-texto {
+  text-align: center;
+  margin-bottom: 2.5rem;
+
+  .titulo {
+    font-size: 2.25rem; // 36px
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitulo {
+    font-size: 1.125rem; // 18px
+    color: #64748b;
+  }
+}
+
+.form-list-card {
+  padding: 0 !important; // Remove o padding padrão do mat-card
+}
+
+.form-list-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease-out;
+  border-bottom: 1px solid #eef2f7;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #f1f5f9;
+  }
+
+  // Aumenta o tamanho do ícone na lista
+  ::ng-deep .mat-mdc-list-item-icon {
+    color: #3f51b5; // Cor primária
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.no-forms-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: #64748b;
+
+  mat-icon {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+  }
+}

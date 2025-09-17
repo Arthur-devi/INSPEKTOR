@@ -1,0 +1,30 @@
+<div class="container-selecao" [@stepAnimation]>
+  <div class="header-texto">
+    <h2 class="titulo">Selecione o Formulário</h2>
+    <p class="subtitulo">Escolha uma das opções abaixo para iniciar uma nova inspeção.</p>
+  </div>
+
+  <!-- ATUALIZADO: Trocamos o grid de cards por uma lista elegante -->
+  <mat-card class="form-list-card">
+    <mat-list role="list">
+      <!-- Itera sobre os formulários ativos -->
+      <mat-list-item
+        *ngFor="let form of formularios"
+        [routerLink]="form.rota"
+        class="form-list-item"
+        role="listitem">
+        <mat-icon matListItemIcon>{{ form.icone }}</mat-icon>
+        <div matListItemTitle>{{ form.nome }}</div>
+        <div matListItemLine>{{ form.descricao }}</div>
+        <mat-icon class="chevron-icon">chevron_right</mat-icon>
+      </mat-list-item>
+    </mat-list>
+
+    <!-- Mensagem para quando não houver formulários ativos -->
+    <div *ngIf="formularios.length === 0" class="no-forms-message">
+      <mat-icon>info_outline</mat-icon>
+      <span>Nenhum formulário ativo no momento. Contate um administrador.</span>
+    </div>
+  </mat-card>
+</div>
+

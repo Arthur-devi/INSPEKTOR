@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  background-color: #f7f9fc; // Tom de cinza mais suave
+  min-height: 100vh;
+}
+
+.manage-container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.header {
+  margin-bottom: 24px;
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  p {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-top: 4px;
+  }
+}
+
+.tab-icon {
+  margin-right: 8px;
+}
+
+// Wrapper para o conteúdo da aba, para espaçamento e animação
+.tab-content-wrapper {
+  padding-top: 16px;
+}
+
+.tab-content {
+  padding: 0; // Removido o padding daqui para o card controlar
+}
+
+// Estilo padrão para os cards de conteúdo
+mat-card {
+  border-radius: 12px !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1) !important;
+  padding: 0 !important; // Controlar padding internamente
+  overflow: hidden;
+}
+
+// Cabeçalho padrão para os cards (Título + Ações)
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap; // Para responsividade
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #e2e8f0;
+
+  h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    color: #334155;
+  }
+}
+
+.card-content {
+  padding: 24px;
+}
+
+// Container da tabela para adicionar borda e arredondamento
+.table-container {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden; // Garante que a tabela respeite a borda arredondada
+
+  // Remove a elevação padrão da tabela, pois o card já tem sombra
+  .mat-elevation-z2 {
+    box-shadow: none;
+  }
+}
+
+table {
+  width: 100%;
+}
+
+// Ajuste no campo de filtro para se alinhar melhor
+.filter-field {
+  width: 100%;
+  max-width: 320px;
+  // Ajuste para diminuir a altura padrão do mat-form-field
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
+}
+
+// Deixa as ações nas tabelas mais evidentes
+td.mat-mdc-cell .mat-icon-button {
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: scale(1.1);
+  }
+}

@@ -1,0 +1,10 @@
+:host {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Se quiser scroll interno quando o conteúdo for longo */
+:host > main {
+  overflow: auto;
+}
