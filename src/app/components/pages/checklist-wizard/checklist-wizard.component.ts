@@ -151,8 +151,7 @@ export class ChecklistWizardComponent implements OnInit {
       'AS BALANÇAS ESTÃO REGULADAS?',
       'A PRESSÃO DO AR ESTÁ CORRETA?',
       'O SACHÊ ESTÁ SEM VAZAMENTO?',
-      'Seguir a IT-PD008 00 ao IT-PD012 00'
-    ],
+      'Seguir a IT-PD008 00 ao IT-PD012 00'],
     'PLANA': ['PARAFUSOS DA ESCOTILHA DA MESA DE SELEÇÃO',
       'PARAFUSOS DA BICA DA ESTEIRA DE SELEÇÃO',
       'PARAFUSOS DA TOLVA ALIMENTADORA DA BALANÇA',
@@ -307,6 +306,8 @@ export class ChecklistWizardComponent implements OnInit {
     return this.form.get('respostas') as FormArray;
   }
 
+// checklist-wizard.component.ts
+
   next(): void {
     if (this.currentStep < this.totalSteps) {
       if (this.currentStep === 1 && this.infoGroup.invalid) {
@@ -318,11 +319,16 @@ export class ChecklistWizardComponent implements OnInit {
       if (this.currentStep === 2 || this.currentStep === 3) {
         const respostasArray = this.form.get('respostas') as FormArray;
         const start = this.currentStep === 2 ? 0 : 14;
-        const end = this.currentStep === 2 ? 14 : respostasArray.length;
+
+        // AQUI ESTÁ A CORREÇÃO!
+        // Usamos Math.min para garantir que o 'end' não ultrapasse o número total de perguntas.
+        const end = this.currentStep === 2 ? Math.min(14, respostasArray.length) : respostasArray.length;
 
         for (let i = start; i < end; i++) {
           const group = respostasArray.at(i) as FormGroup;
-          if (group.invalid) {
+
+          // Adicionamos uma verificação para ter certeza que o 'group' existe antes de usá-lo
+          if (group && group.invalid) {
             group.markAllAsTouched();
             this.abrirErro("Responda todas as perguntas obrigatórias antes de continuar.");
             return;
@@ -333,11 +339,9 @@ export class ChecklistWizardComponent implements OnInit {
       this.currentStep++;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // 3. SE ESTIVER NO ÚLTIMO PASSO, CHAMA A FUNÇÃO DE ENVIO
       this.submit();
     }
   }
-
   prev() {
     if (this.currentStep > 1) this.currentStep--;
   }
@@ -351,11 +355,17 @@ export class ChecklistWizardComponent implements OnInit {
       return;
     }
 
+    // 1. Transforma o array de respostas para o formato desejado
+    const respostasFormatadas = this.form.value.respostas.map((item: any, index: number) => {
+      const pergunta = this.perguntas[index]; // Pega o texto da pergunta correspondente
+      return { [pergunta]: item.resposta }; // Cria um objeto com a pergunta como chave
+    });
+
     // Estrutura os dados para envio
     const dadosParaEnviar = {
       titulo_formulario: 'Checklist de Conferentes',
       dados_iniciais: this.infoGroup.value,
-      respostas_checklist: this.form.value.respostas,
+      respostas_checklist: respostasFormatadas, // <-- USA A VARIÁVEL NOVA AQUI
       observacoes: this.form.value.observacoes,
       acoes: this.form.value.acoes
     };
@@ -364,7 +374,6 @@ export class ChecklistWizardComponent implements OnInit {
       next: (response) => {
         console.log('Checklist salvo com sucesso!', response);
         alert('Formulário enviado com sucesso!');
-        // Opcional: Redirecionar para outra página ou resetar o formulário
         this.currentStep = 1;
         this.infoGroup.reset();
         this.form.reset();

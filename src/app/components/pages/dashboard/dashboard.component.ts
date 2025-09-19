@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { animate, style, transition, trigger } from '@angular/animations';
 
 import { AuthService } from '../login/auth.service';
-import { DashboardService } from './dashboard.service'; // 1. IMPORTAR O NOVO SERVIÇO
+import { DashboardService } from './dashboard.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,9 +31,10 @@ export class DashboardComponent implements OnInit {
 
   // Variáveis para guardar os dados reais
   dadosQualidade: any = { kpis: {}, producaoPorLinha: [], eficienciaOperadores: [] };
-  dadosConferentes: any = { kpis: {}, checklistsPorLinha: [] };
+  // ✅ MELHORIA: Adicionado o array para o novo gráfico no tipo de dados esperado
+  dadosConferentes: any = { kpis: {}, checklistsPorLinha: [], naoConformesPorCategoria: [] };
 
-  // Propriedades dos gráficos (sem alterações)
+  // Propriedades dos gráficos
   gradient: boolean = true;
   colorScheme: Color = {
     name: 'inspektorCool',
@@ -44,7 +45,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private dashboardService: DashboardService, // 2. INJETAR O SERVIÇO
+    private dashboardService: DashboardService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -53,11 +54,10 @@ export class DashboardComponent implements OnInit {
     this.isGestorQualidade = this.authService.hasRole([3]);
     this.isGestorConferentes = this.authService.hasRole([4]);
 
-    // 3. CARREGAR OS DADOS REAIS
     if (this.isGestorQualidade || this.isAdmin) {
       this.dashboardService.getQualidadeData().subscribe(data => {
         this.dadosQualidade = data;
-        this.cdr.detectChanges(); // Notifica o Angular para atualizar a tela
+        this.cdr.detectChanges();
       });
     }
 

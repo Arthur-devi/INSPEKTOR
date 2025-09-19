@@ -35,13 +35,29 @@
         <mat-card class="chart-card">
           <mat-card-header><mat-card-title>Submissões por Linha</mat-card-title></mat-card-header>
           <mat-card-content>
-            <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="dadosQualidade.producaoPorLinha" [xAxis]="true" [yAxis]="true" xAxisLabel="Linha" yAxisLabel="Nº de Submissões"></ngx-charts-bar-vertical>
+            <ngx-charts-bar-horizontal
+              [scheme]="colorScheme"
+              [results]="dadosQualidade.producaoPorLinha"
+              [xAxis]="true"
+              [yAxis]="true"
+              yAxisLabel="Linha"
+              xAxisLabel="Nº de Submissões"
+              [showDataLabel]="true">
+            </ngx-charts-bar-horizontal>
           </mat-card-content>
         </mat-card>
         <mat-card class="chart-card">
           <mat-card-header><mat-card-title>Top 5 Operadores (por nº de submissões)</mat-card-title></mat-card-header>
           <mat-card-content>
-            <ngx-charts-bar-horizontal [scheme]="colorScheme" [results]="dadosQualidade.eficienciaOperadores" [xAxis]="true" xAxisLabel="Nº de Submissões" [showDataLabel]="true"></ngx-charts-bar-horizontal>
+            <ngx-charts-bar-horizontal
+              [scheme]="colorScheme"
+              [results]="dadosQualidade.eficienciaOperadores"
+              [xAxis]="true"
+              [yAxis]="true"
+              xAxisLabel="Nº de Submissões"
+              yAxisLabel="Operador"
+              [showDataLabel]="true">
+            </ngx-charts-bar-horizontal>
           </mat-card-content>
         </mat-card>
       </div>
@@ -77,14 +93,31 @@
         <mat-card class="chart-card">
           <mat-card-header><mat-card-title>Checklists por Linha</mat-card-title></mat-card-header>
           <mat-card-content>
-            <ngx-charts-bar-vertical [scheme]="colorScheme" [results]="dadosConferentes.checklistsPorLinha" [xAxis]="true" [yAxis]="true" xAxisLabel="Linha" yAxisLabel="Nº de Checklists"></ngx-charts-bar-vertical>
+            <ngx-charts-bar-horizontal
+              [scheme]="colorScheme"
+              [results]="dadosConferentes.checklistsPorLinha"
+              [xAxis]="true"
+              [yAxis]="true"
+              yAxisLabel="Linha"
+              xAxisLabel="Nº de Checklists"
+              [showDataLabel]="true">
+            </ngx-charts-bar-horizontal>
           </mat-card-content>
         </mat-card>
         <mat-card class="chart-card">
-          <mat-card-header><mat-card-title>Visão Geral</mat-card-title></mat-card-header>
+          <mat-card-header><mat-card-title>Itens Não Conformes por Categoria</mat-card-title></mat-card-header>
+          <mat-card-content>
+            <ngx-charts-pie-chart
+              [scheme]="colorScheme"
+              [results]="dadosConferentes.naoConformesPorCategoria"
+              [labels]="true"
+              [doughnut]="true"
+              [legend]="true"
+              >
+            </ngx-charts-pie-chart>
+          </mat-card-content>
         </mat-card>
       </div>
     </div>
-
   </div>
 </div>

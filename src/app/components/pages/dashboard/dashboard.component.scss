@@ -1,12 +1,15 @@
 :host {
   display: block;
   background-color: #f8fafc;
-  padding: 32px; // Mais respiro nas laterais
+  padding: 32px;
+  box-sizing: border-box;
+  overflow-x: hidden; // evita barra horizontal
 }
 
 .dashboard-container {
-  max-width: 1800px; // Aumentamos um pouco para telas maiores
+  max-width: 1800px;
   margin: auto;
+  width: 100%; // garante que não estoura
 }
 
 // Estilos do Cabeçalho
@@ -14,40 +17,65 @@
   margin-bottom: 32px;
 
   h1 {
-    font-size: 2.25rem; // Título maior e mais impactante
+    font-size: 2.25rem;
     font-weight: 700;
     color: #1e293b;
-    margin-bottom: 8px; // Menos espaço entre título e subtítulo
+    margin-bottom: 8px;
   }
 
-  .subtitle { // Novo estilo para o subtítulo
+  .subtitle {
     font-size: 1.1rem;
     color: #64748b;
     font-weight: 400;
   }
 }
 
+// Colunas principais do dashboard
+.dashboard-columns {
+  display: grid;
+  // Por padrão, uma coluna. Em telas maiores, vira duas.
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+// A partir de 1200px, o layout vira de 2 colunas
+@media (min-width: 1200px) {
+  .dashboard-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.column-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 // Estilos para os cards de KPI
 .kpi-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); // reduz um pouco
   gap: 24px;
+  min-width: 0; // evita estourar grid
 }
+
 
 .kpi-card {
   display: flex;
   align-items: center;
   padding: 24px;
   background-color: #ffffff;
-  border-radius: 16px; // Bordas mais arredondadas e modernas
+  border-radius: 16px;
   border: 1px solid #e2e8f0;
-  // ✅ SOMBRA SUTIL: Mais profissional que uma borda forte
   box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    // ✅ EFEITO DE HOVER MAIS ELEGANTE
     box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
@@ -69,12 +97,14 @@
     }
   }
 
-  // ✅ NOVAS CORES DOS KPIs, alinhadas à nova paleta
-  .kpi-icon-producao { background-color: #4f46e5; } // Índigo
-  .kpi-icon-alerta { background-color: #f59e0b; } // Amarelo
-  .kpi-icon-eficiencia { background-color: #22c55e; } // Verde
+  .kpi-icon-producao { background-color: #4f46e5; }
+  .kpi-icon-alerta { background-color: #f59e0b; }
+  .kpi-icon-eficiencia { background-color: #22c55e; }
 
   .kpi-content {
+    // Adicionado para garantir que o conteúdo de texto possa encolher
+    min-width: 0;
+
     .kpi-title {
       font-size: 1rem;
       font-weight: 500;
@@ -91,9 +121,16 @@
 // Grid para os gráficos
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  grid-template-columns: 1fr; // Uma coluna por padrão
   gap: 24px;
-  margin-top: 32px; // Espaço entre os KPIs e os gráficos
+  margin-top: 32px;
+}
+
+// Em telas maiores, os gráficos ficam lado a lado
+@media (min-width: 992px) {
+  .charts-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 // Estilo unificado para os cards de gráfico
@@ -114,40 +151,35 @@
     color: #1e293b;
   }
 
-  mat-card-subtitle {
-    font-size: 0.9rem;
-    color: #64748b;
-  }
-
   mat-card-content {
     width: 100%;
-    height: 350px;
+    min-height: 350px;
+    height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 }
 
-// Estilização global para ngx-charts dentro deste componente
+// Estilização global para ngx-charts
 ::ng-deep .ngx-charts {
   text {
-    fill: #64748b !important; // Cor de texto dos eixos e legendas
-    font-family: 'Inter', sans-serif !important; // Aplicar a fonte nos gráficos
+    fill: #64748b !important;
+    font-family: 'Inter', sans-serif !important;
   }
-
   .axis-label {
     font-weight: 500 !important;
   }
-
   .tooltip-anchor {
-    fill: #4f46e5 !important; // Cor do ponto na linha do gráfico
+    fill: #4f46e5 !important;
   }
 }
 
-// Ajustes para dispositivos móveis
+// ✅ AJUSTES FINAIS PARA DISPOSITIVOS MÓVEIS
 @media (max-width: 768px) {
   :host {
     padding: 16px;
+    overflow-x: hidden;
   }
 
   .header h1 {
@@ -157,11 +189,119 @@
     font-size: 1rem;
   }
 
-  .charts-grid {
-    grid-template-columns: 1fr; // Uma coluna em telas menores
+  // ✅ CORREÇÃO FINAL: Força os KPIs a empilharem verticalmente
+  .kpi-container {
+    grid-template-columns: 1fr; // Garante uma única coluna
+  }
+
+  .kpi-card .kpi-content .kpi-value {
+    font-size: 1.8rem; // Reduz um pouco o valor para caber melhor
   }
 
   .chart-card mat-card-content {
-    height: 300px;
+    width: 100%;
+    min-width: 0; // evita que o svg force scroll
+    overflow-x: auto; // se o gráfico for muito largo, só ele rola
   }
+}
+
+
+
+/* ---------------------------
+   Fix responsividade ngx-charts
+   --------------------------- */
+:host, :host * , :host *::before, :host *::after {
+  box-sizing: border-box;
+}
+
+/* Garantias gerais */
+:host {
+  width: 100%;
+  overflow-x: hidden; /* evita shifts visuais */
+}
+
+/* permite encolher dentro de flex/grid */
+.dashboard-columns,
+.dashboard-column,
+.kpi-container,
+.charts-grid,
+.kpi-card,
+.chart-card,
+mat-card,
+mat-card-content,
+ngx-charts,
+ngx-charts * {
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+/* Mat-cards não empurram o layout (clipam internamente) */
+mat-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden; /* evita que conteúdo interno extrapole a coluna */
+}
+
+/* Conteúdo dos cards onde ficam os gráficos */
+.chart-card mat-card-content {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden; /* corta qualquer excesso do SVG/legend */
+  box-sizing: border-box;
+  padding: 0 24px 24px 24px; /* mantém padding porém sem estourar */
+}
+
+/* Força SVGs do ngx-charts a respeitarem o container */
+:host ::ng-deep .ngx-charts,
+:host ::ng-deep .ngx-charts-outer,
+:host ::ng-deep ngx-charts,
+:host ::ng-deep ngx-charts svg {
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+
+/* Legendas: empacotar e truncar, não empurrar layout */
+:host ::ng-deep .ngx-charts .legend-wrap,
+:host ::ng-deep .ngx-charts-legend,
+:host ::ng-deep ul.legend-labels {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 6px;
+  overflow: hidden !important;
+  justify-content: flex-start;
+}
+
+/* Items da legenda: limitar para não empurrar */
+:host ::ng-deep ul.legend-labels li,
+:host ::ng-deep .legend-label {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 10rem; /* ajuste se quiser mais/menos */
+}
+
+/* Texto/axis ticks: reduzir um pouco para caber */
+:host ::ng-deep .ngx-charts text,
+:host ::ng-deep .ngx-charts .tick text {
+  font-size: 11px !important;
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* Se ainda houver labels longos, evita quebra de layout */
+:host ::ng-deep .ngx-charts .x-axis text,
+:host ::ng-deep .ngx-charts .y-axis text {
+  white-space: nowrap;
+}
+
+/* Móvel - reforça empilhamento */
+@media (max-width: 768px) {
+  .kpi-container { grid-template-columns: 1fr; }
+  .charts-grid { grid-template-columns: 1fr; }
+  .chart-card mat-card-content { min-height: 260px; padding: 12px; }
 }

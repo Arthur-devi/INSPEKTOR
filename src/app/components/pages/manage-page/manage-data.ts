@@ -61,7 +61,7 @@ export interface SubmissaoConferente {
   id: number;
   titulo_formulario: string;
   dados_iniciais: DadosIniciaisConferente;
-  respostas_checklist: { resposta: string }[];
+  respostas_checklist: { [key: string]: string }[];
   observacoes: string;
   acoes: string;
   data_envio: string;

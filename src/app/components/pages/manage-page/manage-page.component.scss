@@ -71,7 +71,7 @@ mat-card {
 .table-container {
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  overflow: hidden; // Garante que a tabela respeite a borda arredondada
+  overflow: auto; // Garante que a tabela respeite a borda arredondada
 
   // Remove a elevação padrão da tabela, pois o card já tem sombra
   .mat-elevation-z2 {

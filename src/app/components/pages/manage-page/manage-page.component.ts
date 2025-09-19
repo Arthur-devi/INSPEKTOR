@@ -175,6 +175,7 @@ export class ManagePageComponent implements OnInit, AfterViewInit {
     if (this.paginatorQualidade && this.sortQualidade) {
       this.dataSourceQualidade.paginator = this.paginatorQualidade;
       this.dataSourceQualidade.sort = this.sortQualidade;
+
       this.dataSourceQualidade.sortingDataAccessor = (item, property) => {
         switch (property) {
           case 'responsavel': return item.dados_respostas.nome;
@@ -184,6 +185,18 @@ export class ManagePageComponent implements OnInit, AfterViewInit {
           default: return (item as any)[property];
         }
       };
+
+      // 🔑 Aqui está o filtro customizado
+      this.dataSourceQualidade.filterPredicate = (data: any, filter: string): boolean => {
+        const str = `
+        ${data.id}
+        ${data.dados_respostas.codBarrica || ''}
+        ${data.dados_respostas.produto || ''}
+        ${data.dados_respostas.nome || ''}
+        ${data.dados_respostas.data || ''}
+      `.toLowerCase();
+        return str.includes(filter);
+      };
     }
   }
 
@@ -191,16 +204,32 @@ export class ManagePageComponent implements OnInit, AfterViewInit {
     if (this.paginatorConferentes && this.sortConferentes) {
       this.dataSourceConferentes.paginator = this.paginatorConferentes;
       this.dataSourceConferentes.sort = this.sortConferentes;
+
       this.dataSourceConferentes.sortingDataAccessor = (item, property) => {
         switch (property) {
           case 'responsavel': return item.dados_iniciais.responsavel;
           case 'produto': return item.dados_iniciais.produto;
           case 'lote': return item.dados_iniciais.lote;
+          case 'data_envio': return new Date(item.data_envio).getTime();
           default: return (item as any)[property];
         }
       };
+
+      // 🔑 Filtro customizado para incluir campos aninhados
+      this.dataSourceConferentes.filterPredicate = (data: any, filter: string): boolean => {
+        const str = `
+        ${data.id}
+        ${data.dados_iniciais.lote || ''}
+        ${data.dados_iniciais.produto || ''}
+        ${data.dados_iniciais.responsavel || ''}
+        ${data.data_envio || ''}
+      `.toLowerCase();
+        return str.includes(filter);
+      };
     }
   }
+
+
 
   applyFilterQualidade(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
