@@ -7,13 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from './user.service'; // Ajuste o caminho se necessário
 import {Formulario, SubmissaoConferente, SubmissaoQualidade, User} from './manage-data';
 import { UserDialogComponent } from './user-dialog.component';
-import {ChecklistService} from '../checklist.service';
-import {FormularioService} from '../forms-selection/formulario.service';
-import {WizardService} from '../checklist-wizard/wizard.service';
 
 @Component({
   selector: 'app-manage-users',

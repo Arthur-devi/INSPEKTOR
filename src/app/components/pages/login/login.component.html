@@ -5,6 +5,8 @@
 
   <div class="right-panel" [@stepAnimation]>
     <div class="login-card">
+      <img src="assets/logo-inspektor.svg" alt="Logotipo da Empresa" class="login-logo" />
+
       <h1 class="login-title">Bem-vindo de volta</h1>
       <p class="login-subtitle">Faça login para continuar</p>
 
@@ -23,14 +25,20 @@
 
         <div class="form-group">
           <label for="password">Senha</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            [(ngModel)]="password"
-            placeholder="Digite sua senha"
-          />
+
+          <div class="password-container">
+            <input
+              [type]="senhaVisivel ? 'text' : 'password'"
+              id="password"
+              name="password"
+              required
+              [(ngModel)]="password"
+              placeholder="Digite sua senha"
+            />
+            <mat-icon class="password-toggle" (click)="toggleVisibilidadeSenha()">
+              {{ senhaVisivel ? 'visibility_off' : 'visibility' }}
+            </mat-icon>
+          </div>
         </div>
 
         <button type="submit" [disabled]="!loginForm.form.valid" class="login-button">
@@ -39,7 +47,7 @@
       </form>
 
       <div class="login-footer">
-        <a href="#">Esqueceu sua senha?</a>
+        <a (click)="abrirDialogEsqueceuSenha()" class="forgot-password-link">Esqueceu sua senha?</a>
       </div>
     </div>
   </div>

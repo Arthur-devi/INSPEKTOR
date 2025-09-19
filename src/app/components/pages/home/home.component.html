@@ -5,13 +5,13 @@
   <div class="button-group">
     <button mat-raised-button color="primary" routerLink="/formularios"
             *ngIf="authService.hasRole([1, 2, 3, 4, 5])">
-      📝 Acessar Formulários
+      Acessar Formulários
     </button>
 
     <!-- Botão de Relatórios visível para Gestores (3, 4) e Admin (5) -->
     <button mat-raised-button color="accent" routerLink="/relatorios"
             *ngIf="authService.hasRole([3, 4, 5])">
-      📊 Visualizar Relatórios
+      Visualizar Relatórios
     </button>
   </div>
 </c-container>

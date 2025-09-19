@@ -75,7 +75,6 @@ export class ChecklistWizardComponent implements OnInit {
   ];
 
   perguntasPorLinha: Record<string, string[]> = {
-    // ... (seu objeto gigante de perguntas permanece aqui, sem alterações)
     'LINEAR 06': ['PARAFUSOS DA ESCOTILHA DA MESA DE SELEÇÃO',
       'PARAFUSOS DA BICA DA ESTEIRA DE SELEÇÃO',
       'PARAFUSOS DA TOLVA ALIMENTADORA DA BALANÇA',
@@ -249,7 +248,7 @@ export class ChecklistWizardComponent implements OnInit {
       'O BOTÃO DE EMERGÊNCIA ESTÁ FUNCIONANDO REGULARMENTE?',
       'AS PORTAS ESTÃO DEVIDAMENTE FECHADAS?',
       'Seguir a IT-PD002 00'],
-    'DESCAROÇADEIRA E RECHEADORA': ['A MAQUINA ESTÁ REGULADA?',
+    'DESCAROCADEIRA E RECHEADORA': ['A MAQUINA ESTÁ REGULADA?',
       'O BOTÃO DE EMERGÊNCIA ESTÁ FUNCIONANDO REGULARMENTE?',
       'RECEITA DA PASTA ESTÁ CORRETA?',
       'PERCENTUAL DE AZEITONAS COM CAROÇO ESTÁ DENTRO DO ESPECIFICADO?',

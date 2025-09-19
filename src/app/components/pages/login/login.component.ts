@@ -5,13 +5,17 @@ import {animate, style, transition, trigger} from '@angular/animations'; // 👈
 import { AuthService } from './auth.service'; // 1. IMPORTAR O SERVIÇO
 import { ErroDialogComponent } from './erro-dialog.component';
 import {MatDialog} from '@angular/material/dialog'; // 2. IMPORTAR O DIÁLOGO DE ERRO
-
+import { ForgotPasswordDialogComponent } from './forgot-password-dialog.component';
+import { CommonModule } from '@angular/common'; // 👈 IMPORTANTE para usar *ngIf e [type]
+import { MatIconModule } from '@angular/material/icon'; // 👈 IMPORTAR MÓDULO DE ÍCONES
 
 
 @Component({
   selector: 'app-login-page',
   imports: [
-    FormsModule // 👈 Adicionar aqui também
+    FormsModule,
+    CommonModule,    // 👈 ADICIONAR AQUI
+    MatIconModule    // 👈 ADICIONAR AQUI
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'], // pode deixar vazio por enquanto
@@ -34,6 +38,8 @@ import {MatDialog} from '@angular/material/dialog'; // 2. IMPORTAR O DIÁLOGO DE
 export class LoginComponent {
   email = '';
   password = '';
+  senhaVisivel: boolean = false; // 👈 1. ADICIONE ESTA PROPRIEDADE
+
   //errorMessage = ''; // Para exibir erros de login
 
   constructor(
@@ -66,5 +72,17 @@ export class LoginComponent {
       width: '350px',
       data: { mensagem: mensagem } // Passa a mensagem de erro para o diálogo
     });
+  }
+
+  abrirDialogEsqueceuSenha(): void {
+    this.dialog.open(ForgotPasswordDialogComponent, {
+      width: '450px',
+      maxWidth: '90vw', // Garante que não ultrapasse a tela em celulares
+      panelClass: 'custom-dialog' // Classe opcional para estilização global
+    });
+  }
+
+  toggleVisibilidadeSenha(): void {
+    this.senhaVisivel = !this.senhaVisivel;
   }
 }

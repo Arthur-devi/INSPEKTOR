@@ -32,6 +32,23 @@
     max-width: 400px;
   }
 
+  // 👇 ADICIONE ESTAS NOVAS REGRAS PARA O LOGO AQUI
+  .login-logo {
+    display: block; // Permite o uso de margin: auto
+    width: 120px;    // Ajuste o tamanho conforme necessário
+    height: auto;
+    margin: 0 auto 24px; // Centraliza e adiciona um espaço abaixo
+
+    // Aplica a animação que vamos criar
+    animation: pop-in 0.7s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+    // A animação terá um pequeno atraso para iniciar após o card entrar na tela
+    animation-delay: 0.3s;
+
+    // Estado inicial antes da animação
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
   .login-title {
     font-size: 1.8rem;
     font-weight: 700;
@@ -56,6 +73,28 @@
       margin-bottom: 4px;
       font-weight: 500;
       color: #334155;
+    }
+
+    // 1. O container vira a referência de posição
+    .password-container {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    // 3. O input ganha um espaço interno à direita para o ícone
+    input[name="password"] {
+      width: 100%; // <--- ADICIONE ESTA LINHA
+      padding-right: 40px;
+    }
+
+    // 2. O ícone é posicionado de forma absoluta dentro do container
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      cursor: pointer;
+      color: #94a3b8;
+      user-select: none;
     }
 
     input {
@@ -261,5 +300,23 @@ html, body {
   height: 100%;
 }
 
+@keyframes pop-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
+.login-footer {
+  // ...
+  .forgot-password-link {
+    font-size: 0.9rem;
+    color: #4f46e5;
+    text-decoration: none;
+    cursor: pointer; // Adiciona o cursor de ponteiro
 
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
